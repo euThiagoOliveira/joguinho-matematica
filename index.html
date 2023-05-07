@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-Br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <script src="assets/js/bootstrap.js"></script>
+    <title>Sei lá</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Jogo não sei o nome</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">colocar algum ink de algo aqui</a>
+                    </li>
+                </ul>
+
+    </nav>
+
+    <div class="container">
+        <style>
+            table>thead,
+            tbody,
+            tr td {
+
+                border: rgba(45, 150, 248, 0.719) 1px solid;
+                text-align: center;
+
+            }
+
+            table tr td:hover {
+                background-color: rgb(122, 154, 240);
+                cursor: pointer;
+            }
+
+            .circulo {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                background-color: aqua;
+                shape-outside: circle();
+                clip-path: circle();
+            }
+
+            .circulo2 {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                background-color: aqua;
+                shape-outside: circle();
+                clip-path: circle();
+                display: inline-block;
+
+            }
+
+            .diamante {
+                background-color: red;
+                width: 25px;
+                height: 25px;
+                transform: rotate(45deg);
+                display: inline-block;
+
+            }
+        </style>
+        <div class="row justify-content-center">
+            <div class="col-sm-6 mt-4 p-3">
+                <div class="card border-primary">
+
+                    <table class="table" data-game="table">
+                        <thead class="text-center border-table">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">0</th>
+                                <th scope="col">1</th>
+                                <th scope="col">2</th>
+                                <th scope="col">3</th>
+                                <th scope="col">4</th>
+                                <th scope="col">5</th>
+                            </tr>
+                        </thead>
+                        <tbody class="border-table">
+                            <!-- <span class="diamante"></span> 
+                            <span class="circulo2"></span> -->
+                            <tr>
+                                <th scope="row">0</th>
+                                <td></span></td>
+                                <td> </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                            <th scope="row">3</th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            </tr>
+                            <tr>
+                            <th scope="row">4</th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            </tr>
+                            <tr>
+                            <th scope="row">5</th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            </tr>
+                          
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="circulo"></div>
+            <div class="diamante"></div>
+            <div class="col-sm-3 mt-4 p-3">
+                <div class="card shadow border-primary">
+                    <i class="bi bi-building fs-1 text-center"></i>
+                    <div class="card-body">
+                        <h4 class="card-title text-center">Jogador</h4>
+                        <p class="card-text text-center"><span data-js-move="0" data-js="current-player"
+                            style="height:40px;width:40px" class="circulo2"></span></p>
+                    </div>
+                    <div class=" btn-hover card-footer text-center card-footer text-center">
+                        <a href="#}" class="link-sign">Prosseguir</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="./assets/js/gameplay.js"></script>
+</body>
+
+</html>

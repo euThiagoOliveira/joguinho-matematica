@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        .diagonal{ background: rgb(161, 127, 255);}
+        .reverse-diagonal{ background: rgb(133, 36, 117);}
+    </style>
+   <table id="my-table">
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>6</td>
+      <td>7</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>10</td>
+      <td>11</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>14</td>
+      <td>15</td>
+      <td>16</td>
+    </tr>
+  </table>
+<script>
+   // get the element of the table
+const table = document.getElementById('my-table');
+
+// add an event listener to the table that triggers when a cell is clicked
+table.addEventListener('click', (event) => {
+  // get the index of the clicked cell in its row
+  const cellIndex = event.target.cellIndex;
+  
+  // subtract the index of the clicked cell from the index of the last cell in the row
+  const reverseIndex = event.target.parentNode.cells.length - cellIndex - 1;
+  
+  // use the reverseIndex to get the cell element on the secondary diagonal
+  const secondaryDiagonalCell = table.rows[cellIndex].cells[reverseIndex];
+  
+  // do something with the secondary diagonal cell, such as highlight it
+  secondaryDiagonalCell.classList.add('highlight');
+});
+
+</script>      
+</body>
+</html>
