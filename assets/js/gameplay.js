@@ -143,7 +143,7 @@ function matchesMapping(arrayElements) {
 
  }
 if(matches == 3){
-  console.log(player.className+" venceu")
+  alert("venceu")
 }else{
   matches = 0;
 }
