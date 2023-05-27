@@ -1,151 +1,175 @@
+
 const table = document.querySelector('[data-game="table"]');
 const tds = table.querySelectorAll('[data-game="table"] td');
 const rows = table.querySelectorAll("tbody > tr");
 const player = document.querySelector('[data-js="current-player"]');
+const playerAtual = {
+  jogadorAtual : 1,
+  nome: "..."
+}
 
-const createCircle = (item) => {
+
+const criarCirculo = (c) => {
+  let item = rows[c.linha - 1].querySelectorAll('td')[c.coluna -1]
   let span = document.createElement("span");
 
   if (item.children.length == 0) {
-
     span.classList.add("circulo2");
     item.appendChild(span);
-  } else {
-    
-    alert("Já jogaram aqui");
-  }
+  } 
 };
-const createDiamond = (item) => {
+
+const criarDiamante = (c) => {
+  let item = rows[c.linha - 1].querySelectorAll('td')[c.coluna -1]
   let span = document.createElement("span");
   if (item.children.length == 0) {
     span.classList.add("diamante");
     item.appendChild(span);
- 
-  } else {
-   alert("Já jogaram aqui");
   }
 };
 
-const ChangePlayer = (item) => {
-  let moves = parseInt(player.getAttribute("data-js-move"));
 
-  if (moves == 0 || player.className == "circulo2") {
-    createCircle(item);
-    player.setAttribute("data-js-move", moves + 1);
-    player.className ="diamante"
-  }else if(player.className == "diamante"){
-    createDiamond(item);
-    player.setAttribute("data-js-move", moves + 1);
-    player.className ="circulo2"
+const MudarJogador = (coordenadas) => {
+
+  let item = rows[coordenadas.linha - 1].querySelectorAll('td')[coordenadas.coluna -1];
+  if(item.children.length > 0){
+    alert("Já jogaram aqui");
+  }else{
+  if(playerAtual.jogadorAtual == 1) {
+    playerAtual.jogadorAtual = 2;
+    criarCirculo(coordenadas);
+  
+    if(player.classList.contains("circulo2")){
+      player.classList.remove("circulo2");
+      player.classList.add("diamante")
+    }
+    player.classList.add("diamante")
+  
+
+  }else if(playerAtual.jogadorAtual == 2){
+    playerAtual.jogadorAtual = 1;
+   criarDiamante(coordenadas);
+
+    if(player.classList.contains("diamante")){
+      player.classList.remove("diamante");
+      player.classList.add("circulo2")
+    }
+    player.classList.add("circulo2")
+   
   }
 
- 
+}
 };
 document.querySelectorAll('[data-game="table"] td').forEach((item) => {
   item.addEventListener("click", function () {
     let line = this.parentNode.rowIndex;
     let cell = this.cellIndex;
 
-    let target = item.target;
-    
-    ChangePlayer(this);
-    checkPrimaryDiagonal(line, cell);
-    checkSecondaryDiagonal(line, cell);
-    checkHorizontal(line, cell);
-    checkVertical(line, cell);
-
-   
+    let coordenadas = {
+      linha: line,
+      coluna: cell
+    }
+  
+    MudarJogador(coordenadas)
+    VerificarDiagonalPrimaria(line, cell);
+    VerificarDiagonalSecundaria(line, cell);
+    VerificarHorizontal(line, cell);
+    VerificarVertical(line, cell);
   });
 });
 
-function checkSecondaryDiagonal(line, cell) {
+function VerificarDiagonalSecundaria(line, cell) {
   var linha = line - 1;
   var coluna = cell - 1;
   var secondaryArray = [];
   var sum = linha + coluna;
   // obtenho a linha secundária iteira relativa ao eemento clicado
+  let sub =  linha + coluna; // quantidade de linhas que formam a diagonal secundária
+  let qtLinhas = Math.abs(linha - coluna);
 
-  for (i = 0; i <= sum; i++) {
-    if (i < 6 && rows[i].querySelectorAll("td")[sum - i] !== undefined) {
-      let element = rows[i].querySelectorAll("td")[sum - i];
-
-      secondaryArray.push(element);
+ 
+  if (coluna <= 5) {
+    for (i = 0; i <= 5; i++) {
+    
+       let elemento = rows[i].querySelectorAll("td")[sum - i];
+       if(elemento != undefined){
+        secondaryArray.push(elemento);
+        }
+      
+      
     }
-  }
-  matchesMapping(secondaryArray);
-}
 
-function checkPrimaryDiagonal(line, cell) {
+    VerificadordeCorrespondencias(secondaryArray);
+  }
+}
+function VerificarDiagonalPrimaria(line, cell) {
   var linha = line - 1;
   var coluna = cell - 1;
-  var primaryArray = [];
-  var sum = linha < coluna ? (sum = 0) : linha - coluna;
-
-  for (i = 0; i <= 6; i++) {
-    if (
-      linha < coluna &&
-      i <= 4 &&
-      rows[sum + i].querySelectorAll("td")[coluna - linha + i] !== undefined
-    ) {
-      let element = rows[sum + i].querySelectorAll("td")[coluna - linha + i];
-      primaryArray.push(element);
-    } else if (coluna <= linha && i <= 5 - sum) {
-      let element = rows[sum + i].querySelectorAll("td")[i];
-      primaryArray.push(element);
+  var primariaArray = [];
+  //var sum = linha < coluna ? (sum = 0) : linha - coluna;
+  let sub = coluna > linha ? coluna - linha : linha - coluna;
+  if (coluna >= 1 && coluna <= 5) {
+    for (i = 0; i < 6 - sub; i++) {
+      if (coluna > linha) {
+        // faz pontos a partir da 2º linha
+        let elemento = rows[i].querySelectorAll("td")[sub + i];
+ 
+        primariaArray.push(elemento);
+      } else {
+        elemento = rows[sub + i].querySelectorAll("td")[i];
+        primariaArray.push(elemento);
+      }
     }
+    VerificadordeCorrespondencias(primariaArray);
   }
-  matchesMapping(primaryArray);
+
+
 }
 
-function checkHorizontal(line, cell) {
+function VerificarHorizontal(line, cell) {
   var linha = line - 1;
   var coluna = cell - 1;
   var horizontalArray = [];
   for (i = 0; i < 6; i++) {
-    let element = rows[linha].querySelectorAll("td")[i];
+    let elemento = rows[linha].querySelectorAll("td")[i];
 
-    horizontalArray.push(element);
+    horizontalArray.push(elemento);
   }
-  matchesMapping(horizontalArray);
+  VerificadordeCorrespondencias(horizontalArray);
 }
 
-function checkVertical(line, cell) {
+function VerificarVertical(line, cell) {
   var linha = line - 1;
   var coluna = cell - 1;
   var verticalArray = [];
   for (i = 0; i < 6; i++) {
-    let element = rows[i].querySelectorAll("td")[coluna];
+    let elemento = rows[i].querySelectorAll("td")[coluna];
 
-    verticalArray.push(element);
+    verticalArray.push(elemento);
   }
-  matchesMapping(verticalArray);
+  VerificadordeCorrespondencias(verticalArray);
 }
-function matchesMapping(arrayElements) {
+function VerificadordeCorrespondencias(arrayElements) {
   let analiseArray = arrayElements;
-  let matches = 0;
+  let correspondencia = 0;
+
 
   for (i = 0; i <= analiseArray.length - 1; i++) {
-  let proximo =  analiseArray[i+1];
-  let atual = analiseArray[i].querySelector('span')
- 
+    let proximo = analiseArray[i + 1];
+    let atual = analiseArray[i].querySelector("span");
 
-  if(atual != null){
-    
-   if(proximo != undefined && proximo.children[0]){
-    
-    if(atual.className === proximo.children[0].className){
-      matches++
+    if (atual != null) {
+      if (proximo != undefined && proximo.children[0]) {
+        if (atual.className === proximo.children[0].className) {
+          correspondencia++;
+        }
+      }
     }
-
-   }
   }
-      
-
- }
-if(matches == 3){
-  alert("venceu")
-}else{
-  matches = 0;
-}
+  if (correspondencia == 3) {
+    alert("venceu");
+  } else {
+    correspondencia = 0;
+  }
 
 }
