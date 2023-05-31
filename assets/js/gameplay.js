@@ -3,6 +3,7 @@ const table = document.querySelector('[data-game="table"]');
 const tds = table.querySelectorAll('[data-game="table"] td');
 const rows = table.querySelectorAll("tbody > tr");
 const player = document.querySelector('[data-js="current-player"]');
+const opcaoLimparTabela =  document.querySelector('[data-js="limpar-tabela"]');
 const playerAtual = {
   jogadorAtual : 1,
   nome: "..."
@@ -32,9 +33,7 @@ const criarDiamante = (c) => {
 const MudarJogador = (coordenadas) => {
 
   let item = rows[coordenadas.linha - 1].querySelectorAll('td')[coordenadas.coluna -1];
-  if(item.children.length > 0){
-    alert("Já jogaram aqui");
-  }else{
+  
   if(playerAtual.jogadorAtual == 1) {
     playerAtual.jogadorAtual = 2;
     criarCirculo(coordenadas);
@@ -58,26 +57,50 @@ const MudarJogador = (coordenadas) => {
    
   }
 
-}
+
 };
 document.querySelectorAll('[data-game="table"] td').forEach((item) => {
   item.addEventListener("click", function () {
     let line = this.parentNode.rowIndex;
     let cell = this.cellIndex;
+    let coordenadas = { linha: line, coluna: cell }
+   
 
-    let coordenadas = {
-      linha: line,
-      coluna: cell
+    if( VerificarRegras(coordenadas) == false){
+     
+     let  marcacaoModal = document.getElementById('PosicaoInvalida');
+     let modalMarcacao = new bootstrap.Modal(marcacaoModal);
+     modalMarcacao.show(marcacaoModal)
     }
-  
+    else if(rows[line-1].querySelectorAll('td')[cell -1].childNodes.length > 0 ){
+
+      let  marcacaoModal = document.getElementById('jaMarcaram');
+      let modalMarcacao = new bootstrap.Modal(marcacaoModal);
+      modalMarcacao.show(marcacaoModal)
+
+    }else{
     MudarJogador(coordenadas)
     VerificarDiagonalPrimaria(line, cell);
     VerificarDiagonalSecundaria(line, cell);
     VerificarHorizontal(line, cell);
     VerificarVertical(line, cell);
+    }
   });
 });
+function VerificarRegras(c){
+  let linha = c.linha - 1;
+  let coluna = c.coluna - 1;
+  let linhaPossivel = (linha + 1 > 5 ? 5 : linha + 1) 
+  let posicaoASerVerificada = rows[linhaPossivel].querySelectorAll('td')[coluna];
 
+  if(linha < 5 && posicaoASerVerificada.childNodes.length == 0){
+    // Tá seguindo a regra 
+    return false;
+  }
+  // Tá marcando onde já existe posição marcada
+ return true;
+ 
+}
 function VerificarDiagonalSecundaria(line, cell) {
   var linha = line - 1;
   var coluna = cell - 1;
@@ -167,9 +190,23 @@ function VerificadordeCorrespondencias(arrayElements) {
     }
   }
   if (correspondencia == 3) {
-    alert("venceu");
+    const vencedor = document.getElementById('vencedorModal')
+    var modal = new bootstrap.Modal(vencedor)
+   modal.show(vencedor)
+    //console.log(playerAtual)
   } else {
     correspondencia = 0;
   }
 
+}
+opcaoLimparTabela.addEventListener('click',function(){
+  for (let i = 0; i < tds.length; i++ ){
+    tds[i].innerHTML = "";
+  }
+})
+
+function LimpaTela(){
+  for (let i = 0; i < tds.length; i++ ){
+    tds[i].innerHTML = "";
+  } 
 }
